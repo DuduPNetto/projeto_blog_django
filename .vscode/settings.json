@@ -31,8 +31,6 @@
       "--indent-size=4",
       "--max-line-length=80"
     ],
-    "python.linting.flake8Enabled": true,
-    "python.linting.mypyEnabled": true,
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.analysis.diagnosticSeverityOverrides": {
@@ -44,6 +42,6 @@
     },
     "python.defaultInterpreterPath": "./venv/bin/python",
     "python.analysis.typeCheckingMode": "basic",
-    "cSpell.enabled": true,
-    "python.formatting.provider": "none"
+    "python.formatting.provider": "none",
+    "python.linting.enabled": false
   }
