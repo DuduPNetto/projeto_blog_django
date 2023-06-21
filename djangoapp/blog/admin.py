@@ -3,6 +3,7 @@ from typing import Any
 from blog import models
 from django.contrib import admin
 from django.http.request import HttpRequest
+from django_summernote.admin import SummernoteModelAdmin
 
 
 @admin.register(models.Tag)
@@ -41,7 +42,8 @@ class PageAdmin(admin.ModelAdmin):
     }
 
 @admin.register(models.Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
     list_display = ('id', 'title', 'is_published',)
     list_display_links = ('title',)
     search_fields = ('id', 'title', 'slug', 'content', 'excerpt', 'cover',)
