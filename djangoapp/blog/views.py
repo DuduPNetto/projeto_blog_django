@@ -2,12 +2,12 @@ from blog import models
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
-posts = list(range(1000))
+PER_PAGE = 9
 
 def index(request):
-    posts = models.Post.objects.order_by('-pk')
+    posts = models.Post.objects.filter(is_published=True).order_by('-pk')
 
-    paginator = Paginator(posts, 9)
+    paginator = Paginator(posts, per_page=PER_PAGE)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -20,20 +20,12 @@ def index(request):
     )
 
 def page(request):
-    paginator = Paginator(posts, 9)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
     return render(
         request,
         'blog/pages/page.html'
     )
 
 def post(request):
-    paginator = Paginator(posts, 9)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
     return render(
         request,
         'blog/pages/post.html'
