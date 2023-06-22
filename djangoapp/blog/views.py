@@ -5,7 +5,7 @@ from django.shortcuts import render
 PER_PAGE = 9
 
 def index(request):
-    posts = models.Post.objects.filter(is_published=True).order_by('-pk')
+    posts = models.Post.objects.get_published()
 
     paginator = Paginator(posts, per_page=PER_PAGE)
     page_number = request.GET.get("page")
