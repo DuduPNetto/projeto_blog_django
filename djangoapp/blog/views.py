@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.http import Http404, HttpRequest, HttpResponse
 from django.http.request import HttpRequest
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.views.generic import DetailView, ListView
 
 PER_PAGE = 9
@@ -147,19 +147,21 @@ class PageDetailView(DetailView):
             is_published=True
         )
 
-def post(request, slug):
-    post_obj = models.Post.objects.get_published().filter(slug=slug).first()
+class PostDetailView(DetailView):
+    model = models.Post
+    template_name = 'blog/pages/post.html'
+    context_object_name = 'post'
 
-    if post_obj is None:
-        raise Http404()
-
-    page_title = f'{post_obj.title} - Post - '
-
-    return render(
-        request,
-        'blog/pages/post.html',
-        {
-            'post': post_obj,
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        post = self.get_object()
+        page_title = f'{post.title} - Página - ' #type: ignore
+        context.update({
             'page_title': page_title
-        }
-    )
+        })
+        return context
+    
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            is_published=True
+        )
